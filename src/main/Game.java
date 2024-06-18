@@ -1,18 +1,26 @@
 package main;
 
 
+import Entities.Player;
+
+import java.awt.*;
+
 public class Game implements Runnable {
 
 	private final GameWindow gameWindow;
 	private final GamePanel gamePanel;
+	private final Player player;
 
 	public Game() {
-
-		gamePanel = new GamePanel();
+		player = new Player(100,100);
+		gamePanel = new GamePanel(this);
 		gameWindow = new GameWindow(gamePanel);
 		gamePanel.requestFocus();
 		startGameLoop();
+	}
 
+	public Player getPlayer() {
+		return player;
 	}
 
 	private void startGameLoop() {
@@ -20,7 +28,10 @@ public class Game implements Runnable {
 		gameThread.start();
 	}
 	private void update() {
-		gamePanel.updateGame();
+		player.updateGame();
+	}
+	public void render(Graphics g){
+		player.render(g);
 	}
 
 	@Override
@@ -60,9 +71,9 @@ public class Game implements Runnable {
 				deltaF--;
 			}
 
-			if (System.currentTimeMillis() - lastCheck >= 1000) {
-				lastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + frames + " | UPS: " + update);
+			if (currentTime - lastCheck >= 1_000_000_000) {
+				lastCheck = currentTime;
+				System.out.println("FPS: " + frames + " || UPS: " + update);
 				frames = 0;
 				update = 0;
 			}
