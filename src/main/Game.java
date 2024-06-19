@@ -2,6 +2,7 @@ package main;
 
 
 import Entities.Player;
+import Levels.LevelManager;
 
 import java.awt.*;
 
@@ -10,11 +11,22 @@ public class Game implements Runnable {
 	private final GameWindow gameWindow;
 	private final GamePanel gamePanel;
 	private final Player player;
+	private LevelManager levelManager;
+
+	public static final int TILES_DEFAULT_SIZE = 32;
+	public static final float SCALE = 1.5f;
+	public static final int TILES_IN_WIDTH = 26;
+	public static final int TILES_IN_HEIGHT = 14;
+
+	public static final int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+	public static final int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
+	public static final int GAME_HEIGHT = TILE_SIZE * TILES_IN_HEIGHT;
 
 	public Game() {
 		player = new Player(100,100);
 		gamePanel = new GamePanel(this);
 		gameWindow = new GameWindow(gamePanel);
+		levelManager = new LevelManager(this);
 		gamePanel.requestFocus();
 		startGameLoop();
 	}
@@ -29,9 +41,11 @@ public class Game implements Runnable {
 	}
 	private void update() {
 		player.updateGame();
+		levelManager.update();
 	}
 	public void render(Graphics g){
 		player.render(g);
+		levelManager.drawLevel(g);
 	}
 
 	@Override
