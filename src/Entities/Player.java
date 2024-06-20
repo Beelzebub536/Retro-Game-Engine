@@ -5,7 +5,6 @@ import Utilities.LoadSave;
 import main.Game;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static Utilities.Constants.PlayerConstants.*;
@@ -17,11 +16,11 @@ public class Player extends Entity {
     private int animationSpeed = 15, animationIndex, animationTick;
     private int playerAction = IDLE;
     private boolean moving, attack1 = false;
-    private boolean north, south, east, west, jump, inAir = true;
+    private boolean east, west, jump, inAir = true;
     private float playerSpeed = 1.5f;
     private int[][] levelData;
-    private float offsetX = 21 * Game.SCALE;
-    private float offsetY = 4 * Game.SCALE;
+    private final float OFFSET_X = 21 * Game.SCALE;
+    private final float OFFSET_Y = 4 * Game.SCALE;
 
     //gravity
     private float airSpeed = 0f;
@@ -163,8 +162,6 @@ public class Player extends Entity {
     }
 
     public void resetBooleans() {
-        north = false;
-        south = false;
         east = false;
         west = false;
     }
